@@ -8,6 +8,8 @@ function App() {
   const initialURL = "https://pokeapi.co/api/v2/pokemon";
   const [loading, setLoading] = useState(true);
   const [pokemonData, setPokemonData] = useState([]);
+  const [nextURL, setNextURL] = useState("");
+  const [prevURL, setPrevURL] = useState("");
 
   useEffect(() => {
     const fetchPokemonData = async () => {
@@ -15,7 +17,9 @@ function App() {
       let res = await getALLPokemon(initialURL);
       // 各ポケモンの詳細なデータを取得
       loadPokemon(res.results);
-      // console.log(res.results);
+      // console.log(res.next);
+      setNextURL(res.next);
+      setPrevURL(res.previous); // 最初のページはnull
       setLoading(false);
     };
     fetchPokemonData();
@@ -32,7 +36,27 @@ function App() {
     setPokemonData(_pokemonData);
   };
 
-  console.log(pokemonData);
+  // console.log(pokemonData);
+
+  const handleNextPage = async () => {
+    setLoading(true);
+    let data = await getALLPokemon(nextURL);
+    console.log(data);
+    await loadPokemon(data.results);
+    setNextURL(data.next);
+    setPrevURL(data.previous);
+    setLoading(false);
+  };
+
+  const handlePrevPage = async () => {
+    if (!prevURL) return;
+    setLoading(true);
+    let data = await getALLPokemon(prevURL);
+    await loadPokemon(data.results);
+    setNextURL(data.next);
+    setPrevURL(data.previous);
+    setLoading(false);
+  };
 
   return (
     <>
@@ -46,6 +70,10 @@ function App() {
               {pokemonData.map((pokemon, i) => {
                 return <Card key={i} pokemon={pokemon} />;
               })}
+            </div>
+            <div className="btn">
+              <button onClick={handlePrevPage}>前へ</button>
+              <button onClick={handleNextPage}>次へ</button>
             </div>
           </>
         )}
