@@ -166,7 +166,7 @@ function App() {
     }
   };
 
-  // 🔍 メイン検索関数
+  // メイン検索関数
   const handleSearchChange = async (term) => {
     setSearchTerm(term);
 
