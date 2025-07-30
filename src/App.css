@@ -17,7 +17,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 20px;
+  gap: 50px;
 }
 
 .btn button {
@@ -33,4 +33,27 @@
 .btn button:hover {
   transform: translateY(5px);
   box-shadow: none;
+}
+
+.search-info {
+  text-align: center;
+  margin: 20px 0;
+  color: #666;
+  font-size: 14px;
+}
+
+.search-loading {
+  text-align: center;
+  margin: 40px 0;
+  color: #666;
+}
+
+.search-loading p:first-child {
+  font-size: 18px;
+  margin-bottom: 10px;
+}
+
+.search-loading p:last-child {
+  font-size: 14px;
+  color: #999;
 }
